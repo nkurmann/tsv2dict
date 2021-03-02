@@ -9,6 +9,12 @@ env:
     - LANG=en_US.UTF-8
 matrix:
   include:
+    - python: '3.6'
+      env:
+        - TOXENV=check
+    - python: '3.6'
+      env:
+        - TOXENV=docs
 {%- for env in tox_environments %}{{ '' }}
     - env:
         - TOXENV={{ env }},codecov

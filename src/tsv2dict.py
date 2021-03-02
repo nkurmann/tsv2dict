@@ -11,7 +11,7 @@ from typing import Optional
 from typing import Sequence
 from typing import TextIO
 
-__version__ = '0.0.0'
+__version__ = '0.0.1'
 
 
 def escape(cell: Optional[str]) -> str:
@@ -79,11 +79,11 @@ class Reader:
 class Writer:
     '''Writes rows into a tsv file. Performs escaping.'''
 
-    def __init__(self, f: TextIO) -> None:
+    def __init__(self, f: TextIO):
         self._file: TextIO = f
         self._width = None
 
-    def write_row(self, cells: Iterable[Optional[str]]):
+    def write_row(self, cells: Iterable[Optional[str]]) -> None:
         '''Writes a single row into a tsv file. Performs escaping.'''
         self._expect_number_of_cells_to_be_constant(len(cells))
 
@@ -177,7 +177,8 @@ class DictWriter:
         if value not in (True, False):
             raise TypeError(f"{name} is expected to be a bool.")
 
-    def write_row(self, rowdict: Dict[str, Any]):
+    def write_row(self, rowdict: Dict[str, Any]) -> None:
+        '''Writes a dict into the TSV as a single line'''
 
         if self.fieldnames is None:
             self.fieldnames = rowdict.keys()
@@ -227,5 +228,6 @@ class DictWriter:
                 "Consider setting a missing_values_placeholder in init.")
 
     def write_rows(self, rowdicts: Iterable[Dict[str, Any]]):
+        '''Adds several dicts in the form of as many rows'''
         for rowdict in rowdicts:
             self.write_row(rowdict)
