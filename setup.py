@@ -26,7 +26,7 @@ def read(*names, **kwargs):
 
 setup(
     name='tsv2dict',
-    version='0.0.1',
+    version='0.0.2',
     license='MIT',
     description='Python support for linear TSV files',
     long_description='%s\n%s' % (

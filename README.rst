@@ -51,9 +51,9 @@ Overview
     :alt: Supported implementations
     :target: https://pypi.org/project/tsv2dict
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/nkurmann/tsv2dict/v0.0.1.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/nkurmann/tsv2dict/v0.0.2.svg
     :alt: Commits since latest release
-    :target: https://github.com/nkurmann/tsv2dict/compare/v0.0.0...main
+    :target: https://github.com/nkurmann/tsv2dict/compare/v0.0.2...main
 
 
 
