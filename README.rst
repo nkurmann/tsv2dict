@@ -70,12 +70,14 @@ What is Linear TSV
 In contrast to Excel's TSV dialect, linear TSV is line-based.
 
 *"But hey"*, I hear you say, *"isn't TSV always line-based?"*. Well, the issue arises when a cell contains a tab or newline character. In excel's TSV format, that cell is surrounded by quotes and the entry is continued on the next line. Now you have:
+
 * entries spanning several lines
 * quotes that need to be ignored (`"`)
 * quotes that are escaped by doubling them (`""`)
 
 
 All of this can be prevented if you simply:
+
 * escape tabs: `\t`
 * escape newlines: `\n`
 * escape carriage returns: `\r`

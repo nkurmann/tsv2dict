@@ -1,8 +1,8 @@
 '''
 Provides a reader and writer for TSV files, similar to the CSV implementation.
 '''
-
 from typing import Any
+from typing import Callable
 from typing import Dict
 from typing import Iterable
 from typing import Iterator
@@ -10,6 +10,7 @@ from typing import List
 from typing import Optional
 from typing import Sequence
 from typing import TextIO
+from inspect import signature
 
 __version__ = '0.0.1'
 
@@ -231,3 +232,45 @@ class DictWriter:
         '''Adds several dicts in the form of as many rows'''
         for rowdict in rowdicts:
             self.write_row(rowdict)
+
+
+def _expect_unary_function(type_: Callable[[str], Any]) -> bool:
+    if len(signature(type_).parameters()) != 1:
+        raise ValueError(f"Expected '{type_.__name__}' to be a unary function")
+
+
+class ListConverter:
+    '''An object that parses a list of strings into the types specified in `type_list`'''
+
+    def __init__(self, type_list: List[Callable[[str], Any]]):
+        if not all(map(callable, type_list)):
+            raise TypeError("An entry in type_list isn't callable")
+
+        self._type_list = type_list
+
+    def __call__(self, row: List[str]) -> List[Any]:
+        '''Cast the cells to the registered types'''
+        if (len(self._type_list) != len(row)):
+            raise ValueError("List length must match the number of predetermined types.")
+
+        types_and_value = zip(self._type_list, row)
+        return [target(value) for (target, value) in types_and_value]
+
+
+class DictConverter:
+    '''An object that parses a dict of strings into the types specified in `type_dict`'''
+
+    def __init__(self, type_dict: Dict[str, Callable[[str], Any]]):
+        if not all(map(callable, type_dict.values())):
+            raise TypeError("An entry in type_dict isn't callable")
+
+        self._target_types = type_dict
+
+    def __call__(self, row_dict: Dict[str, str]) -> Dict[str, Any]:
+        '''Cast the cells to the registered types'''
+        if (len(self._target_types) != len(row_dict)):
+            raise ValueError("Row length must match the number of predetermined types.")
+
+        return {
+            key: self._target_types[key](value) for (key, value) in row_dict.items()
+        }
