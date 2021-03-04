@@ -234,11 +234,6 @@ class DictWriter:
             self.write_row(rowdict)
 
 
-def _expect_unary_function(type_: Callable[[str], Any]) -> bool:
-    if len(signature(type_).parameters()) != 1:
-        raise ValueError(f"Expected '{type_.__name__}' to be a unary function")
-
-
 class ListConverter:
     '''An object that parses a list of strings into the types specified in `type_list`'''
 
@@ -248,13 +243,14 @@ class ListConverter:
 
         self._type_list = type_list
 
-    def __call__(self, row: List[str]) -> List[Any]:
+    def __call__(self, values: List[str]) -> List[Any]:
         '''Cast the cells to the registered types'''
-        if (len(self._type_list) != len(row)):
+        if (len(self._type_list) != len(values)):
             raise ValueError("List length must match the number of predetermined types.")
 
-        types_and_value = zip(self._type_list, row)
-        return [target(value) for (target, value) in types_and_value]
+        types_and_value = zip(self._type_list, values)
+        return [target(value) if value is not None else None
+                for (target, value) in types_and_value]
 
 
 class DictConverter:
@@ -264,13 +260,15 @@ class DictConverter:
         if not all(map(callable, type_dict.values())):
             raise TypeError("An entry in type_dict isn't callable")
 
-        self._target_types = type_dict
+        self.type_dict = type_dict
 
-    def __call__(self, row_dict: Dict[str, str]) -> Dict[str, Any]:
+    def __call__(self, value_dict: Dict[str, str]) -> Dict[str, Any]:
         '''Cast the cells to the registered types'''
-        if (len(self._target_types) != len(row_dict)):
+
+        if (len(self.type_dict) != len(value_dict)):
             raise ValueError("Row length must match the number of predetermined types.")
 
         return {
-            key: self._target_types[key](value) for (key, value) in row_dict.items()
+            key: self.type_dict[key](value) if value is not None else None
+            for (key, value) in value_dict.items()
         }

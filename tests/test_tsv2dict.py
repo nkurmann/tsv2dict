@@ -192,12 +192,12 @@ def test_dict_writer_can_allow_excess_values():
 #     writer.write_row({"C": unescaped, "B": "2", "A": "1.00"})
 #     assert f"2\t1.00\t{escaped}\n" == f.content
 
-types_dict = {"A": str, "B": int, "C": float}
-types_list = [str, int, float]
-data_list = ["a", "2", "3.0"]
-data_dict = {"A": "a", "B": "2", "C": "3.0"}
-expected_list = ["a", 2, 3.0]
-expected_dict = {"A": "a", "B": 2, "C": 3.0}
+types_dict = {"A": str, "B": int, "C": float, "X": str, "Y": int, "Z": float}
+types_list = [str, int, float, str, int, float]
+data_list = ["a", "2", "3.0", None, None, None]
+data_dict = {"A": "a", "B": "2", "C": "3.0", "X": None, "Y": None, "Z": None}
+expected_list = ["a", 2, 3.0, None, None, None]
+expected_dict = {"A": "a", "B": 2, "C": 3.0, "X": None, "Y": None, "Z": None}
 
 
 def test_list_converter():
@@ -215,4 +215,4 @@ def test_dict_converter():
 
     for key in converted_dict:
         assert converted_dict[key] == expected_dict[key]
-        assert isinstance(converted_dict[key], type(expected_dict[key]))
+        assert type(converted_dict[key]) == type(expected_dict[key])
