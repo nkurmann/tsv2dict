@@ -75,17 +75,22 @@ In contrast to Excel's TSV dialect, linear TSV is line-based.
 * quotes that need to be ignored (`"`)
 * quotes that are escaped by doubling them (`""`)
 
+Since entries can span several lines, many naïve file manipulations aren't possible:
+
+* Taking the first 50 entries of a dataset: `head -n 50 customers.tsv`
+* Filtering entries: `grep "Zürich" customers.tsv`
+* Sorting the entries alphabetically: `sort customers.tsv`
 
 All of this can be prevented if you simply:
 
-* escape tabs: `\t`
-* escape newlines: `\n`
-* escape carriage returns: `\r`
-* escape backslashes: `\\`
+* escape tabs: `\\t`
+* escape newlines: `\\n`
+* escape carriage returns: `\\r`
+* escape backslashes: `\\\\`
+
+Lastly, linear TSV can also encode `None` as `\\N`.
 
 That's linear tsv in a nutshell.
-
-
 
 
 Installation
