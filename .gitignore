@@ -1,7 +1,7 @@
 # Added by me
 activate
 Makefile
-
+.venv
 
 *.py[cod]
 __pycache__

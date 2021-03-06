@@ -206,7 +206,7 @@ def test_list_converter():
 
     for actual, expected in zip(converted_list, expected_list):
         assert actual == expected
-        assert type(actual) == type(expected)
+        assert isinstance(actual, type(expected))
 
 
 def test_dict_converter():
@@ -215,4 +215,4 @@ def test_dict_converter():
 
     for key in converted_dict:
         assert converted_dict[key] == expected_dict[key]
-        assert type(converted_dict[key]) == type(expected_dict[key])
+        assert isinstance(converted_dict[key], type(expected_dict[key]))

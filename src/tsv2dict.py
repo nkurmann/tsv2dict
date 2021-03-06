@@ -1,7 +1,6 @@
 '''
 Provides a reader and writer for TSV files, similar to the CSV implementation.
 '''
-from inspect import signature
 from typing import Any
 from typing import Callable
 from typing import Dict

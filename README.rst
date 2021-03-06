@@ -90,7 +90,7 @@ All of this can be prevented if you simply:
 
 Lastly, linear TSV can also encode `None` as `\\N`.
 
-That's linear tsv in a nutshell.
+That's [linear TSV](http://dataprotocols.org/linear-tsv/) in a nutshell.
 
 
 Installation

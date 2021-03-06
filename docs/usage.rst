@@ -7,7 +7,38 @@ This project provides a `DictReader` and `DictWriter` for [linear TSV](http://da
 
 To use tsv2dict in a project::
 
-	import tsv2dict
+	$ pip install tsv2dict
+
+
+The file's header can automatically be interpreted as fieldnames::
+
+	from tsv2dict import DictReader, DictWriter
+
+	# load and infer keys from header:
+	with open(tsv_path, encoding="UTF-8") as f:
+		rows = [row for row in DictReader(f)]
+
+	# save and write keys to header:
+	with open(tsv_path, 'w') as f:
+		DictWriter(f, write_header=True).write_rows(rows)
+
+
+If you're using a pure (headerless) linear tsv file, use::
+
+	from tsv2dict import DictReader, DictWriter
+	
+	fieldnames = ["name", "age", "address"]
+
+	# load (infer keys from header):
+	with open(tsv_path, encoding="UTF-8") as f:
+		rows = [row for row in DictReader(f, fieldnames)]
+
+	# save (write keys to header):
+	with open(tsv_path, 'w') as f:
+		DictWriter(f, write_header=False, fieldnames).write_rows(rows)
+
+
+
 
 
 
