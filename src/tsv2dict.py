@@ -12,7 +12,7 @@ from typing import Optional
 from typing import Sequence
 from typing import TextIO
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 
 
 def escape(cell: Optional[str]) -> str:
